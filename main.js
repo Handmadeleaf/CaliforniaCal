@@ -3,20 +3,12 @@ const config = {
     width: 400,
     height: 600,
     backgroundColor: '#1e1e24',
+    parent: 'phaser-calculator',
     scene: { preload: function(){}, create: create }
 };
 
 const game = new Phaser.Game(config);
 let displayText = '0', displayView, currentInput = '', previousInput = '', activeOperator = null, clearNextInput = false;
-
-function autoCenterCanvas() {
-    if (game && game.scale) {
-        game.scale.setMode(Phaser.Scale.FIT);
-        game.scale.autoCenter = Phaser.Scale.CENTER_BOTH;
-        game.scale.refresh();
-    }
-}
-setInterval(autoCenterCanvas, 500);
 
 function create() {
     const displayBackground = this.add.graphics();
@@ -77,7 +69,6 @@ function create() {
 }
 
 function handleInput(value) {
-    // 🛑 If the screen already contains 67, completely lock the keys until 'C' is pressed
     if (displayText.includes('67') && value !== 'C') {
         return; 
     }
@@ -108,7 +99,6 @@ function handleInput(value) {
         if (currentInput !== '') { currentInput = (parseFloat(currentInput) / 100).toString(); displayText = currentInput; }
     }
 
-    // 🛑 SEES ALL 67s OVERRIDE CHECK
     if (displayText.includes('67')) {
         displayView.setText('no.');
     } else {
